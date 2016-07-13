@@ -5,6 +5,7 @@ public class BallController : MonoBehaviour {
 	private Rigidbody2D body;
 	private Vector2 movementForce;
 	private AudioSource audioSource;
+	private float collisionTolerance = 0.05f;
 
 	public float speed;
 	//private AudioClip ballBeepOne;
@@ -61,8 +62,56 @@ public class BallController : MonoBehaviour {
 			movementForce.y = yComponent;
 
 		} else if (collision.gameObject.CompareTag ("Player")) {
-			//audioSource.PlayOneShot (ballBeepOne, 1f);
+			// randomize the second param so it doesnt sound so repetetive
 			audioSource.PlayOneShot (audioSource.clip, 1f);
+
+			//Collider2D collider = collision.collider;
+			ContactPoint2D cp = collision.contacts[0];
+			//Debug.Log ("collision contacts[0]:");
+			//Debug.Log (cp);
+
+			Collider2D collider = collision.collider;
+
+			Vector2 cpp = collision.contacts[0].point;
+			//Debug.Log ("contacts[0].point");
+			//Debug.Log (cpp);
+
+			Vector2 hitBoxCenter = collider.bounds.center;
+			//Debug.Log ("hitBoxCenter:");
+			//Debug.Log (hitBoxCenter);
+
+			float hitBoxTop = collider.bounds.max.y;
+			float hitBoxBottom = collider.bounds.min.y;
+			float hitBoxLeft = collider.bounds.min.x;
+			float hitBoxRight = collider.bounds.max.x;
+
+			// if cpp.y == hitBoxTop, it hit the top
+			// if cpp.y == hitBoxBottom, it hit the bottom
+			// if cpp.x == hitBoxLeft, it hit the back
+			// if cpp.x == hitBoxRight, it hit the front
+
+			// we should make this abs and comp a fn to clean it up
+			if (Mathf.Abs(cpp.y - hitBoxTop) < collisionTolerance) {
+				Debug.Log ("i r hit top");
+			}
+
+			if (cpp.y == hitBoxBottom) {
+				Debug.Log ("i r hit bottom");
+			}
+
+			if (cpp.x == hitBoxLeft) {
+				Debug.Log ("i r hit back");
+			}
+
+			if (Mathf.Abs(cpp.x - hitBoxRight) < collisionTolerance) {
+				Debug.Log ("i r hit front");
+			}
+
+
+			// see if it hit the top or bottom or front or back
+
+			//body = GetComponent<Rigidbody2D> ();
+
 			// we want to maintain y velocity and reverse the x 
 			//float xComponent = movementForce.x;
 			//float yComponent = movementForce.y;
