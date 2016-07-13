@@ -4,7 +4,9 @@ using System.Collections;
 public class BallController : MonoBehaviour {
 	private Rigidbody2D body;
 	private Vector2 movementForce;
-	private AudioSource audioSource;
+	private AudioSource[] sounds;
+	private AudioSource ballBeepOne;
+	private AudioSource ballBeepTwo;
 	private float collisionTolerance = 0.05f;
 	private float volLowRange = 0.5f;
 	private float volHighRange = 1.0f;
@@ -14,7 +16,9 @@ public class BallController : MonoBehaviour {
 	void Start () {
 		body = GetComponent<Rigidbody2D> ();
 		movementForce = new Vector2 (-0.5f, -0.25f);
-		audioSource = GetComponent<AudioSource> ();
+		sounds = GetComponents<AudioSource> ();
+		ballBeepOne = sounds [0];
+		ballBeepTwo = sounds [1];
 
 	}
 	
@@ -30,31 +34,35 @@ public class BallController : MonoBehaviour {
 		float xComponent = movementForce.x;
 
 		if (collision.gameObject.CompareTag ("BackgroundLeft")) {
+			// play fail sound
 			Debug.Log ("CPU score");
 
 			movementForce.x = 0.0f;
 			movementForce.y = 0.0f;
 
 		} else if (collision.gameObject.CompareTag("BackgroundRight")) {
+			// play goal sound instead
+			this.playBallBeepTwo ();
 			Debug.Log ("Player score");
 
 			xComponent *= -1.0f;
 			movementForce.x = xComponent;
 
 		} else if (collision.gameObject.CompareTag("BackgroundTop")) {
+			this.playBallBeepTwo ();
 			yComponent *= -1.0f;
 			movementForce.y = yComponent;
 
 		} else if (collision.gameObject.CompareTag("BackgroundBottom")) {
+			this.playBallBeepTwo ();
 			yComponent *= -1.0f;
 			movementForce.y = yComponent;
 
 		} else if (collision.gameObject.CompareTag ("Player")) {
 			// randomize the second param so it doesnt sound so repetetive
-			float vol = Random.Range(volLowRange, volHighRange);
-			audioSource.PlayOneShot (audioSource.clip, vol);
+			this.playBallBeepOne ();
 
-			ContactPoint2D cp = collision.contacts[0];
+			//ContactPoint2D cp = collision.contacts[0];
 			Collider2D collider = collision.collider;
 			Vector2 cpp = collision.contacts[0].point;
 			Vector2 hitBoxCenter = collider.bounds.center;
@@ -93,5 +101,17 @@ public class BallController : MonoBehaviour {
 			//movementForce.y = yComponent;
 
 		}
+	}
+
+	private void playBallBeepOne () {
+		float vol = Random.Range(volLowRange, volHighRange);
+		ballBeepOne.PlayOneShot (ballBeepOne.clip, vol);
+
+	}
+
+	private void playBallBeepTwo () {
+		float vol = Random.Range(volLowRange, volHighRange);
+		ballBeepTwo.PlayOneShot (ballBeepTwo.clip, vol);
+
 	}
 }
