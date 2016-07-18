@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+	// but FixedUpdate is called immediately before each physics update
+	// so we generally want to perform physics-related tasks here
 	void FixedUpdate () {
 		float moveVertical = Input.GetAxis ("Vertical");
 		Vector2 move = new Vector2 (0, moveVertical);

@@ -7,7 +7,8 @@ public class BallController : MonoBehaviour {
 	private AudioSource[] sounds;
 	private AudioSource ballBeepOne;
 	private AudioSource ballBeepTwo;
-	private float collisionTolerance = 0.05f;
+//	private float collisionTolerance = 0.66f;
+	private float collisionTolerance = 0.40f;
 	private float volLowRange = 0.5f;
 	private float volHighRange = 1.0f;
 
@@ -15,7 +16,12 @@ public class BallController : MonoBehaviour {
 
 	void Start () {
 		body = GetComponent<Rigidbody2D> ();
-		movementForce = new Vector2 (-0.5f, -0.25f);
+		//movementForce = new Vector2 (-0.5f, -0.25f);
+		// make this -1, 0 and normalize all the changes
+		// that way, speed alone will handle thingz
+//		movementForce = new Vector2 (-0.5f, 0.0f);
+//		movementForce = new Vector2 (1.5f, 0.0f);
+		movementForce = new Vector2 (1.0f, 0.0f);
 		sounds = GetComponents<AudioSource> ();
 		ballBeepOne = sounds [0];
 		ballBeepTwo = sounds [1];
@@ -35,7 +41,7 @@ public class BallController : MonoBehaviour {
 
 		if (collision.gameObject.CompareTag ("BackgroundLeft")) {
 			// play fail sound
-			Debug.Log ("CPU score");
+//			Debug.Log ("CPU score");
 
 			movementForce.x = 0.0f;
 			movementForce.y = 0.0f;
@@ -43,7 +49,7 @@ public class BallController : MonoBehaviour {
 		} else if (collision.gameObject.CompareTag("BackgroundRight")) {
 			// play goal sound instead
 			this.playBallBeepTwo ();
-			Debug.Log ("Player score");
+//			Debug.Log ("Player score");
 
 			xComponent *= -1.0f;
 			movementForce.x = xComponent;
@@ -57,6 +63,48 @@ public class BallController : MonoBehaviour {
 			this.playBallBeepTwo ();
 			yComponent *= -1.0f;
 			movementForce.y = yComponent;
+
+		} else if (collision.gameObject.CompareTag ("Enemy")) {
+			// maybe add a third for the enemy
+			// or should I be randomizing all?
+			this.playBallBeepOne ();
+
+			Collider2D collider = collision.collider;
+			Vector2 cpp = collision.contacts[0].point;
+			Vector2 hitBoxCenter = collider.bounds.center;
+
+			float hitBoxTop = collider.bounds.max.y;
+			float hitBoxBottom = collider.bounds.min.y;
+			float hitBoxLeft = collider.bounds.min.x;
+			float hitBoxRight = collider.bounds.max.x;
+
+			if (Mathf.Abs(cpp.y - hitBoxTop) < collisionTolerance) {
+//				Debug.Log ("i r hit enemy top");
+				yComponent = 1.0f;
+				movementForce.y = yComponent;
+
+			}
+
+			if (Mathf.Abs(cpp.y - hitBoxBottom) < collisionTolerance) {
+//				Debug.Log ("i r hit enemy bottom");
+				yComponent = -1.0f;
+				movementForce.y = yComponent;
+
+			}
+
+			if (cpp.x == hitBoxRight) {
+//				Debug.Log ("i r hit enemy back");
+			}
+
+//			if (Mathf.Abs(cpp.x - hitBoxLeft) < collisionTolerance) {
+			if (Mathf.Abs(cpp.x - hitBoxLeft) < collisionTolerance) {
+//				Debug.Log ("i r hit enemy front");
+			}
+
+			// reverse the directions
+			xComponent *= -1.0f;
+
+			movementForce.x = xComponent;
 
 		} else if (collision.gameObject.CompareTag ("Player")) {
 			// randomize the second param so it doesnt sound so repetetive
@@ -72,21 +120,34 @@ public class BallController : MonoBehaviour {
 			float hitBoxLeft = collider.bounds.min.x;
 			float hitBoxRight = collider.bounds.max.x;
 
+			// we still need to appropriately handle the case where the top top is hit
+			// e.g. where cpp.y = hitBoxTop
+			// 	then we would check cpp.x
+			//		if its past the halfway point (the abs(maxx-minx) + hitBoxLeft towards the back,
+			//      	send it toward the back
+			//		else
+			//			send it toward the front
+
 			// we should make this abs and comp a fn to clean it up
 			if (Mathf.Abs(cpp.y - hitBoxTop) < collisionTolerance) {
-				Debug.Log ("i r hit top");
+//				Debug.Log ("i r hit player top");
+				yComponent = 1.0f;
+				movementForce.y = yComponent;
 			}
 
-			if (cpp.y == hitBoxBottom) {
-				Debug.Log ("i r hit bottom");
+			if (Mathf.Abs(cpp.y - hitBoxBottom) < collisionTolerance) {
+//				Debug.Log ("i r hit bottom");
+				yComponent = -1.0f;
+				movementForce.y = yComponent;
+
 			}
 
 			if (cpp.x == hitBoxLeft) {
-				Debug.Log ("i r hit back");
+//				Debug.Log ("i r hit back");
 			}
 
 			if (Mathf.Abs(cpp.x - hitBoxRight) < collisionTolerance) {
-				Debug.Log ("i r hit front");
+				//Debug.Log ("i r hit front");
 			}
 
 			// want the result:

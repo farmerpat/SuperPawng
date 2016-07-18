@@ -1,0 +1,21 @@
+ball
+    Rigidbody2D
+        mass from 1 to 0.0001
+        interpolate from none to interpolate
+        collision detection from discrete to continuous
+
+at some point run assets -> run api updater
+
+consider changing y-axis input sensitivity and gravity
+to high numbers s/t paddle moves instantly
+
+consider allowing the paddles to fire freeze rays at eachother
+that would temporarily parylize their opponent
+or some other kind of ray that would cause the opponents position
+to change in some (hopefully undersireable) way
+if we did that we could call the game something cool with
+battle or war in the name
+
+consider temporary obstacles for the playing field
+the could get destryed with one or more hits
+think breakout rotated 90 degrees
