@@ -11,8 +11,14 @@ public class BallController : MonoBehaviour {
 	private float collisionTolerance = 0.40f;
 	private float volLowRange = 0.5f;
 	private float volHighRange = 1.0f;
+	private string state = "";
 
 	public float speed;
+
+	// use the neat c# way of get instead
+	public string getState () {
+		return this.state;
+	}
 
 	void Start () {
 		body = GetComponent<Rigidbody2D> ();
@@ -41,7 +47,7 @@ public class BallController : MonoBehaviour {
 
 		if (collision.gameObject.CompareTag ("BackgroundLeft")) {
 			// play fail sound
-//			Debug.Log ("CPU score");
+			this.state = "cpu_score";
 
 			movementForce.x = 0.0f;
 			movementForce.y = 0.0f;
