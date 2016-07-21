@@ -10,8 +10,22 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 	private bool gameOver = false;
 	public GameObject ball;
+	private static GameManager _instance;
 
-	// Update is called once per frame
+	// make a GameMananager singleton
+	public static GameManager Instance {
+		get {
+			if (_instance == null) {
+				GameObject manager = new GameObject ("[GameManager]");
+				_instance = manager.AddComponent<GameManager> ();
+				DontDestroyOnLoad (manager);
+
+			}
+
+			return _instance;
+		}
+	}
+
 	void Update () {
 		if (ball) {
 			if (ball.GetComponent<BallController>().getState() == "cpu_score") {
@@ -23,6 +37,7 @@ public class GameManager : MonoBehaviour {
 				if (Input.anyKeyDown) {
 					// really we'd be keeping track of the current level too
 					SceneManager.LoadScene ("Level1");
+					gameOver = false;
 
 				}
 			}

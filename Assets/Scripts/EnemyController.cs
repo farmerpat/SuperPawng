@@ -27,13 +27,6 @@ public class EnemyController : MonoBehaviour {
 			this.ballLastXPos = ball.transform.position.x;
 			this.ballLastYPos = ball.transform.position.y;
 
-			Debug.Log ("got ball");
-			Debug.Log (this.ballLastXPos);
-			Debug.Log (this.ballLastYPos);
-
-		} else {
-			Debug.Log ("no ball :/");
-
 		}
 	}
 	
