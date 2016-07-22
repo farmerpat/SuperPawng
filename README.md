@@ -24,8 +24,14 @@ Possibilities
     - in rarer cases, projectile will be homing
     - in some cases, projectile will be the temporary freeze effect
     - in others, it will be the displacement beam
-    - maybe pc players can swtich between projectiles w/ spacebar
+    - in others, it will temporarily annihilate the enemy
+        - or totally annihilate blocks
+    - maybe pc players can switch between projectiles w/ spacebar
         - the homing beams should stay rare (like a crit)
+- power-up delivery
+    - instead of dropping like arkanoid, shoot them toward player/enemy
+    - consider a robotic arm or cannon of some kind
+        - extends from the top-center
 - handhelds
     - force landscape view
     - swipe up-down to move paddle
