@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject ball;
     [HideInInspector]
-    public int pointsPerRound = 3;
+    public int pointsPerRound = 1;
 
 	// make a GameMananager singleton
 	public static GameManager Instance {
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour {
                 ++this.currentLevel;
                 if (this.currentLevel > this.numberOfLevels) {
                     Debug.Log("victory is mine");
-                    //SceneManager.LoadScene ("VictoryScreen");
+                    SceneManager.LoadScene ("VictoryScreen");
 
                 } else {
                     this.loadNextLevel();
