@@ -49,6 +49,6 @@ Possibilities
     - this seems like a neat idea, but is probably not going to work out
     - but the idea is to make the levels roughly correspond to how the ball's
     - role in games changed over time (or something) so in level
-    1. we have classic-esque pong
-    2. incorporate elements of Arkanoid
-    3. idk
+        1. we have classic-esque pong
+        2. incorporate elements of Arkanoid
+        3. idk
