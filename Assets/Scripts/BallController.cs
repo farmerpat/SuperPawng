@@ -20,6 +20,18 @@ public class BallController : MonoBehaviour {
 		return this.state;
 	}
 
+    public bool compareState (string testState) {
+        if (this.state == testState) {
+            return true;
+
+        } else {
+            return false;
+
+        }
+    }
+
+    public void clearState () { this.state = ""; }
+
 	void Start () {
 		body = GetComponent<Rigidbody2D> ();
 		//movementForce = new Vector2 (-0.5f, -0.25f);
@@ -27,7 +39,7 @@ public class BallController : MonoBehaviour {
 		// that way, speed alone will handle thingz
 //		movementForce = new Vector2 (-0.5f, 0.0f);
 //		movementForce = new Vector2 (1.5f, 0.0f);
-		movementForce = new Vector2 (1.0f, 0.0f);
+		movementForce = new Vector2 (1.0f, 0.5f);
 		sounds = GetComponents<AudioSource> ();
 		ballBeepOne = sounds [0];
 		ballBeepTwo = sounds [1];
@@ -44,21 +56,22 @@ public class BallController : MonoBehaviour {
 	void OnCollisionEnter2D (Collision2D collision) {
 		float yComponent = movementForce.y;
 		float xComponent = movementForce.x;
+        //this.state = "";
 
-		if (collision.gameObject.CompareTag ("BackgroundLeft")) {
+		if (collision.gameObject.CompareTag("BackgroundLeft")) {
 			// play fail sound
 			this.state = "cpu_score";
-
 			movementForce.x = 0.0f;
 			movementForce.y = 0.0f;
 
 		} else if (collision.gameObject.CompareTag("BackgroundRight")) {
 			// play goal sound instead
 			this.playBallBeepTwo ();
-//			Debug.Log ("Player score");
-
-			xComponent *= -1.0f;
-			movementForce.x = xComponent;
+			this.state = "player_score";
+			//xComponent *= -1.0f;
+			//movementForce.x = xComponent;
+			movementForce.x = 0.0f;
+			movementForce.y = 0.0f;
 
 		} else if (collision.gameObject.CompareTag("BackgroundTop")) {
 			this.playBallBeepTwo ();
@@ -85,24 +98,21 @@ public class BallController : MonoBehaviour {
 			float hitBoxRight = collider.bounds.max.x;
 
 			if (Mathf.Abs(cpp.y - hitBoxTop) < collisionTolerance) {
-//				Debug.Log ("i r hit enemy top");
 				yComponent = 1.0f;
 				movementForce.y = yComponent;
 
 			}
 
 			if (Mathf.Abs(cpp.y - hitBoxBottom) < collisionTolerance) {
-//				Debug.Log ("i r hit enemy bottom");
 				yComponent = -1.0f;
 				movementForce.y = yComponent;
 
 			}
 
-			if (cpp.x == hitBoxRight) {
+            if (Mathf.Abs(cpp.x - hitBoxRight) < collisionTolerance) {
 //				Debug.Log ("i r hit enemy back");
 			}
 
-//			if (Mathf.Abs(cpp.x - hitBoxLeft) < collisionTolerance) {
 			if (Mathf.Abs(cpp.x - hitBoxLeft) < collisionTolerance) {
 //				Debug.Log ("i r hit enemy front");
 			}
@@ -136,24 +146,22 @@ public class BallController : MonoBehaviour {
 
 			// we should make this abs and comp a fn to clean it up
 			if (Mathf.Abs(cpp.y - hitBoxTop) < collisionTolerance) {
-//				Debug.Log ("i r hit player top");
 				yComponent = 1.0f;
 				movementForce.y = yComponent;
 			}
 
 			if (Mathf.Abs(cpp.y - hitBoxBottom) < collisionTolerance) {
-//				Debug.Log ("i r hit bottom");
 				yComponent = -1.0f;
 				movementForce.y = yComponent;
 
 			}
 
-			if (cpp.x == hitBoxLeft) {
-//				Debug.Log ("i r hit back");
+            if (Mathf.Abs(cpp.x - hitBoxLeft) < collisionTolerance) {
+
 			}
 
 			if (Mathf.Abs(cpp.x - hitBoxRight) < collisionTolerance) {
-				//Debug.Log ("i r hit front");
+
 			}
 
 			// want the result:

@@ -9,8 +9,16 @@ using System.Collections;
  */
 public class GameManager : MonoBehaviour {
 	private bool gameOver = false;
-	public GameObject ball;
+    private bool levelOver = false;
 	private static GameManager _instance;
+    private static int playerScore = 0;
+    private static int enemyScore = 0;
+    private int currentLevel = 1;
+    private int numberOfLevels = 1;
+
+	public GameObject ball;
+    [HideInInspector]
+    public int pointsPerRound = 3;
 
 	// make a GameMananager singleton
 	public static GameManager Instance {
@@ -26,12 +34,75 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+    public static void resetPlayerScore () {
+        playerScore = 0;
+    }
+
+    public static void resetEnemyScore () {
+        enemyScore = 0;
+    }
+
+    public static void resetScores () {
+        resetPlayerScore ();
+        resetEnemyScore ();
+
+    }
+
+    private void incrementAndDisplayeEnemyScore () {
+        ++enemyScore;
+        // this.updateScore('enemy');
+        // or
+        // ScoreUpdater.updateScore('enemy');
+        // ScoreBoard.updateScore('enemy');
+
+    }
+
+    private void incrementAndDisplayePlayerScore () {
+        ++playerScore;
+        // this.updateScore('player');
+
+    }
+
+    private bool playerWinsRound () {
+        if (playerScore >= pointsPerRound) {
+            return true;
+
+        } else {
+            return false;
+
+        }
+    }
+
+    private bool playerLosesRound () {
+        if (enemyScore >= pointsPerRound) {
+            return true;
+
+        } else {
+            return false;
+
+        }
+    }
+
 	void Update () {
 		if (ball) {
-			if (ball.GetComponent<BallController>().getState() == "cpu_score") {
-				this.gameOver = true;
+            BallController ballController = ball.GetComponent<BallController>();
 
-			}
+            //if (ball.GetComponent<BallController>().compareState("cpu_score")) {
+            if (ballController.compareState("cpu_score")) {
+                ballController.clearState();
+                this.incrementAndDisplayeEnemyScore();
+                if (playerLosesRound()) {
+                    this.gameOver = true;
+
+                }
+            } else if (ballController.compareState("player_score")) {
+                ballController.clearState();
+                this.incrementAndDisplayePlayerScore();
+                if (playerWinsRound()) {
+                    this.levelOver = true;
+
+                }
+            }
 
 			if (gameOver) {
 				if (Input.anyKeyDown) {
@@ -40,9 +111,23 @@ public class GameManager : MonoBehaviour {
 					gameOver = false;
 
 				}
-			}
+			} else if (levelOver) {
+                ++this.currentLevel;
+                if (this.currentLevel > this.numberOfLevels) {
+                    Debug.Log("victory is mine");
+                    //SceneManager.LoadScene ("VictoryScreen");
+
+                } else {
+                    this.loadNextLevel();
+
+                }
+            }
 		}
 	}
+
+    private void loadNextLevel () {
+        Debug.Log("i r load next level");
+    }
 
 	// when called, draws gui elts
 	void OnGUI () {
