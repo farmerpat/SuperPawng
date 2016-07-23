@@ -8,31 +8,31 @@ using System.Collections;
  * 
  */
 public class GameManager : MonoBehaviour {
-	private bool gameOver = false;
+    private bool gameOver = false;
     private bool levelOver = false;
-	private static GameManager _instance;
+    private static GameManager _instance;
     private static int playerScore = 0;
     private static int enemyScore = 0;
     private int currentLevel = 1;
     private int numberOfLevels = 1;
 
-	public GameObject ball;
+    public GameObject ball;
     [HideInInspector]
     public int pointsPerRound = 1;
 
-	// make a GameMananager singleton
-	public static GameManager Instance {
-		get {
-			if (_instance == null) {
-				GameObject manager = new GameObject ("[GameManager]");
-				_instance = manager.AddComponent<GameManager> ();
-				DontDestroyOnLoad (manager);
+    // make a GameMananager singleton
+    public static GameManager Instance {
+        get {
+            if (_instance == null) {
+                GameObject manager = new GameObject ("[GameManager]");
+                _instance = manager.AddComponent<GameManager> ();
+                DontDestroyOnLoad (manager);
 
-			}
+            }
 
-			return _instance;
-		}
-	}
+            return _instance;
+        }
+    }
 
     public static void resetPlayerScore () {
         playerScore = 0;
@@ -83,11 +83,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-	void Update () {
-		if (ball) {
+    void Update () {
+        if (ball) {
             BallController ballController = ball.GetComponent<BallController>();
 
-            //if (ball.GetComponent<BallController>().compareState("cpu_score")) {
             if (ballController.compareState("cpu_score")) {
                 ballController.clearState();
                 this.incrementAndDisplayeEnemyScore();
@@ -104,14 +103,14 @@ public class GameManager : MonoBehaviour {
                 }
             }
 
-			if (gameOver) {
-				if (Input.anyKeyDown) {
-					// really we'd be keeping track of the current level too
-					SceneManager.LoadScene ("Level1");
-					gameOver = false;
+            if (gameOver) {
+                if (Input.anyKeyDown) {
+                    // really we'd be keeping track of the current level too
+                    SceneManager.LoadScene ("Level1");
+                    gameOver = false;
 
-				}
-			} else if (levelOver) {
+                }
+            } else if (levelOver) {
                 ++this.currentLevel;
                 if (this.currentLevel > this.numberOfLevels) {
                     Debug.Log("victory is mine");
@@ -122,18 +121,18 @@ public class GameManager : MonoBehaviour {
 
                 }
             }
-		}
-	}
+        }
+    }
 
     private void loadNextLevel () {
         Debug.Log("i r load next level");
     }
 
-	// when called, draws gui elts
-	void OnGUI () {
-		if (gameOver) {
-			GUILayout.Label ("Game Over, luser....press a key to try again");
+    // when called, draws gui elts
+    void OnGUI () {
+        if (gameOver) {
+            GUILayout.Label ("Game Over, luser....press a key to try again");
 
-		}
-	}
+        }
+    }
 }
