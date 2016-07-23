@@ -17,6 +17,7 @@ TODO
 - [ ]finish intro music
 - [ ]start level music
 - [ ]clean up the code
+- [ ]try out ball collision animation (try to warp shape slightly somehow)
 
 Possibilities
 -------------
@@ -44,3 +45,10 @@ Possibilities
     - place Arkanoid-style colums in the center of the screen
     - change board to be narrower on AI's side when difficulty is high
         - or just make it much wider on player's
+- Evolution of the ball in games
+    - this seems like a neat idea, but is probably not going to work out
+    - but the idea is to make the levels roughly correspond to how the ball's
+    - role in games changed over time (or something) so in level
+    1. we have classic-esque pong
+    2. incorporate elements of Arkanoid
+    3. idk
