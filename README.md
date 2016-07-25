@@ -8,7 +8,7 @@ Description
 TODO
 ----
 
-- [ ]convert tabs to whitespace
+- [x]convert tabs to whitespace
 - [ ]properly handle the ball colliding with top/bottom of paddles
 - [ ]handle player score condition
 - [ ]display score
