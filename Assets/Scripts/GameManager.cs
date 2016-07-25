@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     private static int enemyScore = 0;
     private int currentLevel = 1;
     private int numberOfLevels = 1;
+    private bool gamePaused = false;
 
     public GameObject ball;
     [HideInInspector]
@@ -84,6 +85,18 @@ public class GameManager : MonoBehaviour {
     }
 
     void Update () {
+        if (Input.GetKeyDown("escape")) {
+            if (this.gamePaused) {
+                this.gamePaused = false;
+                Time.timeScale = 1.0f;
+
+            } else {
+                this.gamePaused = true;
+                Time.timeScale = 0.0f;
+
+            }
+        }
+
         if (ball) {
             BallController ballController = ball.GetComponent<BallController>();
 
