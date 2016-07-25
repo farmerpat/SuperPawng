@@ -12,6 +12,7 @@ public class BallController : MonoBehaviour {
     private float volLowRange = 0.5f;
     private float volHighRange = 1.0f;
     private string state = "";
+    private bool updateForce;
 
     public float speed;
 
@@ -43,19 +44,25 @@ public class BallController : MonoBehaviour {
         sounds = GetComponents<AudioSource> ();
         ballBeepOne = sounds [0];
         ballBeepTwo = sounds [1];
+        this.updateForce = true;
 
     }
 
     // when dealing with a RigidBody, FixedUpdate should
     // be used instead of Update
     void FixedUpdate () {
-        body.velocity = movementForce * speed;
+        if (this.updateForce) {
+            body.velocity = new Vector2(0.0f,0.0f);
+            body.AddForce(movementForce * speed);
+            this.updateForce = false;
 
+        }
     }
 
     void OnCollisionEnter2D (Collision2D collision) {
         float yComponent = movementForce.y;
         float xComponent = movementForce.x;
+        this.updateForce = true;
         //this.state = "";
 
         if (collision.gameObject.CompareTag("BackgroundLeft")) {
