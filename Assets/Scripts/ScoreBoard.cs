@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ScoreBoard : MonoBehaviour {
+//public class ScoreBoard : MonoBehaviour {
+public class ScoreBoard {
     private ScoreBoard _instance;
     private Dictionary<int, string> scoreMap = new Dictionary<int, string>() {
         { 0, "Score Zero" },
@@ -29,7 +30,6 @@ public class ScoreBoard : MonoBehaviour {
 
     public void updateEnemeyScore (int newScore) {
         if (this.scoreMap.ContainsKey (newScore)) {
-            Debug.Log("scoreMap contains " + newScore.ToString());
             this.displayScore(newScore, "EnemyScore");
 
         } else {

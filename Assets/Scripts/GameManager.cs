@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour {
     private int currentLevel = 1;
     private int numberOfLevels = 1;
     private bool gamePaused = false;
+    private bool enemyScored = false;
 
     public GameObject ball;
-    [HideInInspector]
-    public int pointsPerRound = 1;
+
+    //[HideInInspector]
+    private int pointsPerRound = 2;
 
     public void resetPlayerScore () {
         this.heroScore = 0;
@@ -60,9 +62,13 @@ public class GameManager : MonoBehaviour {
 
     private bool playerLosesRound () {
         if (enemyScore >= pointsPerRound) {
+            Debug.Log("player loses round");
+            Debug.Log("enemyScore: " + this.enemyScore.ToString());
+            Debug.Log("pointsPerRound: " + this.pointsPerRound.ToString());
             return true;
 
         } else {
+            Debug.Log("player does not lose  round");
             return false;
 
         }
@@ -93,8 +99,13 @@ public class GameManager : MonoBehaviour {
             if (ballController.compareState("cpu_score")) {
                 ballController.clearState();
                 this.incrementAndDisplayeEnemyScore();
+
                 if (playerLosesRound()) {
                     this.gameOver = true;
+
+                } else {
+                    // it seems misleading to not set this either way
+                    this.enemyScored = true;
 
                 }
             } else if (ballController.compareState("player_score")) {
@@ -111,6 +122,12 @@ public class GameManager : MonoBehaviour {
                     // really we'd be keeping track of the current level too
                     SceneManager.LoadScene ("Level1");
                     gameOver = false;
+
+                }
+            } else if (enemyScored) {
+                if (Input.anyKeyDown) {
+                    ballController.serve();
+                    enemyScored = false;
 
                 }
             } else if (levelOver) {
@@ -135,6 +152,9 @@ public class GameManager : MonoBehaviour {
     void OnGUI () {
         if (gameOver) {
             GUILayout.Label ("Game Over, luser....press a key to try again");
+
+        } else if (enemyScored) {
+            GUILayout.Label ("Villian Scored, luser....press a key to serve the ball");
 
         }
     }

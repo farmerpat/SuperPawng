@@ -37,13 +37,22 @@ public class BallController : MonoBehaviour {
         body = GetComponent<Rigidbody2D> ();
         //movementForce = new Vector2 (-0.5f, -0.25f);
         // make this -1, 0 and normalize all the changes
-        // that way, speed alone will handle thingz
-        // movementForce = new Vector2 (-0.5f, 0.0f);
-        // movementForce = new Vector2 (1.5f, 0.0f);
+        // that way, speed alone will handle thingz?
+        // randomizing this in some way would make things more interesting
         movementForce = new Vector2 (1.0f, 0.5f);
         sounds = GetComponents<AudioSource> ();
         ballBeepOne = sounds [0];
         ballBeepTwo = sounds [1];
+        this.updateForce = true;
+
+    }
+
+    public void serve () {
+        // transform to starting position
+        // init movementForce
+        transform.position = new Vector2(0.0f, 1.0f);
+        // randomizing this in some way would make things more interesting
+        movementForce = new Vector2 (1.0f, 0.5f);
         this.updateForce = true;
 
     }
