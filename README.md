@@ -22,6 +22,8 @@ TODO
 Possibilities
 -------------
 
+- Scoring
+    - make the ball explode!
 - projectiles
     - in rarer cases, projectile will be homing
     - in some cases, projectile will be the temporary freeze effect
