@@ -11,6 +11,8 @@ TagManager:
   - BackgroundLeft
   - BackgroundRight
   - Enemy
+  - HeroScore
+  - EnemyScore
   layers:
   - Default
   - TransparentFX

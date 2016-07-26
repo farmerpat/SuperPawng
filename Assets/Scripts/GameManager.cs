@@ -10,9 +10,9 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
     private bool gameOver = false;
     private bool levelOver = false;
-    private static GameManager _instance;
-    private static int playerScore = 0;
-    private static int enemyScore = 0;
+    private int heroScore = 0;
+    private int enemyScore = 0;
+    private ScoreBoard scoreBoard;
     private int currentLevel = 1;
     private int numberOfLevels = 1;
     private bool gamePaused = false;
@@ -21,51 +21,35 @@ public class GameManager : MonoBehaviour {
     [HideInInspector]
     public int pointsPerRound = 1;
 
-    // make a GameMananager singleton
-    public static GameManager Instance {
-        get {
-            if (_instance == null) {
-                GameObject manager = new GameObject ("[GameManager]");
-                _instance = manager.AddComponent<GameManager> ();
-                DontDestroyOnLoad (manager);
-
-            }
-
-            return _instance;
-        }
+    public void resetPlayerScore () {
+        this.heroScore = 0;
     }
 
-    public static void resetPlayerScore () {
-        playerScore = 0;
+    public void resetEnemyScore () {
+        this.enemyScore = 0;
     }
 
-    public static void resetEnemyScore () {
-        enemyScore = 0;
-    }
-
-    public static void resetScores () {
-        resetPlayerScore ();
-        resetEnemyScore ();
+    public void resetScores () {
+        this.resetPlayerScore ();
+        this.resetEnemyScore ();
 
     }
 
     private void incrementAndDisplayeEnemyScore () {
-        ++enemyScore;
-        // this.updateScore('enemy');
-        // or
-        // ScoreUpdater.updateScore('enemy');
-        // ScoreBoard.updateScore('enemy');
+        // the score should probably the deferred to the ScoreBoard
+        ++this.enemyScore;
+        this.scoreBoard.updateEnemeyScore(this.enemyScore);
 
     }
 
     private void incrementAndDisplayePlayerScore () {
-        ++playerScore;
-        // this.updateScore('player');
+        ++this.heroScore;
+        this.scoreBoard.updateHeroScore(this.heroScore);
 
     }
 
     private bool playerWinsRound () {
-        if (playerScore >= pointsPerRound) {
+        if (heroScore >= pointsPerRound) {
             return true;
 
         } else {
@@ -82,6 +66,12 @@ public class GameManager : MonoBehaviour {
             return false;
 
         }
+    }
+
+    void Start () {
+        this.scoreBoard = new ScoreBoard();
+        this.scoreBoard.initScoreBoard();
+
     }
 
     void Update () {
