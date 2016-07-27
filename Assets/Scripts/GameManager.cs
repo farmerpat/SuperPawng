@@ -18,11 +18,9 @@ public class GameManager : MonoBehaviour {
     private bool gamePaused = false;
     private bool enemyScored = false;
     private bool playerScored = false;
+    private int pointsPerRound = 5;
 
     public GameObject ball;
-
-    //[HideInInspector]
-    private int pointsPerRound = 2;
 
     public void resetPlayerScore () {
         this.heroScore = 0;

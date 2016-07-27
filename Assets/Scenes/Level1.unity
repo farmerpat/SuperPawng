@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87749918682f54508a9712dbafbc6c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.02
+  speed: 0.04
 --- !u!50 &871037594
 Rigidbody2D:
   serializedVersion: 2
@@ -1009,7 +1009,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 871037592}
-  pointsPerRound: 0
 --- !u!4 &1509303912
 Transform:
   m_ObjectHideFlags: 0

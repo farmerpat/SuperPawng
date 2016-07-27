@@ -8,7 +8,10 @@ public class ScoreBoard {
     private Dictionary<int, string> scoreMap = new Dictionary<int, string>() {
         { 0, "Score Zero" },
         { 1, "Score One"},
-        { 2, "Score Two"}
+        { 2, "Score Two"},
+        { 3, "Score Three"},
+        { 4, "Score Four"},
+        { 5, "Score Five"}
 
     };
 
