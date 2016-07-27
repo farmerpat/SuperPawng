@@ -10,10 +10,10 @@ TODO
 
 - [x]convert tabs to whitespace
 - [ ]properly handle the ball colliding with top/bottom of paddles
-- [ ]handle player score condition
-- [ ]display score
+- [x]handle player score condition
+- [x]display score
 - [ ]determine victory conditions. implement
-- [ ]migrate images to ps
+- [x]migrate images to ps
 - [ ]finish intro music
 - [ ]start level music
 - [ ]clean up the code
