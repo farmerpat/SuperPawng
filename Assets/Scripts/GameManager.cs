@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
     private int numberOfLevels = 1;
     private bool gamePaused = false;
     private bool enemyScored = false;
+    private bool playerScored = false;
 
     public GameObject ball;
 
@@ -114,23 +115,32 @@ public class GameManager : MonoBehaviour {
                 if (playerWinsRound()) {
                     this.levelOver = true;
 
+                } else {
+                    this.playerScored = true;
+
                 }
             }
 
-            if (gameOver) {
+            if (this.gameOver) {
                 if (Input.anyKeyDown) {
                     // really we'd be keeping track of the current level too
                     SceneManager.LoadScene ("Level1");
-                    gameOver = false;
+                    this.gameOver = false;
 
                 }
-            } else if (enemyScored) {
+            } else if (this.enemyScored) {
                 if (Input.anyKeyDown) {
                     ballController.serve();
-                    enemyScored = false;
+                    this.enemyScored = false;
 
                 }
-            } else if (levelOver) {
+            } else if (this.playerScored) {
+                if (Input.anyKeyDown) {
+                    ballController.serve();
+                    this.playerScored = false;
+
+                }
+            } else if (this.levelOver) {
                 ++this.currentLevel;
                 if (this.currentLevel > this.numberOfLevels) {
                     Debug.Log("victory is mine");
@@ -150,11 +160,14 @@ public class GameManager : MonoBehaviour {
 
     // when called, draws gui elts
     void OnGUI () {
-        if (gameOver) {
+        if (this.gameOver) {
             GUILayout.Label ("Game Over, luser....press a key to try again");
 
-        } else if (enemyScored) {
+        } else if (this.enemyScored) {
             GUILayout.Label ("Villian Scored, luser....press a key to serve the ball");
+
+        } else if (this.playerScored) {
+            GUILayout.Label ("You Scored....press a key to serve the ball");
 
         }
     }
