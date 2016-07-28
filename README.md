@@ -13,7 +13,7 @@ TODO
 - [x]handle player score condition
 - [x]display score
 - [ ]determine victory conditions. implement
-- [x]migrate images to ps
+- [ ]migrate images to ps (the ball and paddles too, brah)
 - [ ]finish intro music
 - [ ]start level music
 - [ ]clean up the code
