@@ -30,11 +30,10 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate () {
+	void Update () {
         GameObject ball = GameObject.Find("Ball");
 
-        if (ball) {
+		if (ball) {
             this.ballCurrentXPos = ball.transform.position.x;
             this.ballCurrentYPos = ball.transform.position.y;
 
@@ -46,7 +45,6 @@ public class EnemyController : MonoBehaviour {
             // and hit the ball with (top middle bottom).
             //
             // we can also just increase the speed at which the enemy paddle moves
-
 
             // get the slope
             float m = (this.ballCurrentYPos - this.ballLastYPos) / (this.ballCurrentXPos - this.ballLastXPos);
@@ -74,7 +72,10 @@ public class EnemyController : MonoBehaviour {
             this.ballLastYPos = this.ballCurrentYPos;
 
         }
+	}
 
+    void FixedUpdate () {
         body.velocity = movementForce * speed;
+
     }
 }
